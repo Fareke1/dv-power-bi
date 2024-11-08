@@ -1,0 +1,33 @@
+Task 2. Write an SQL query on the database from Task 1 to display a list of users who purchased any animal feed between August 1-15, excluding "Kitekat cat food, with rabbit in sauce, 85g." Attach the query in a text document.===========================================================================================================
+
+SELECT DISTINCT o.user_id
+FROM orders o
+JOIN order_lines ol ON o.order_id = ol.order_id
+JOIN products p ON ol.product_id = p.product_id
+WHERE o.order_date BETWEEN '2023-08-01' AND '2023-08-15'
+  AND p.category = 'Animal Feed'
+  AND p.product_name <> 'Kitekat cat food, with rabbit in sauce, 85 g';
+
+
+===========================================================================================================
+
+
+
+
+Task 3. Write an SQL query on the database from Task 1 to display the top 5 most frequently ordered products in St. Petersburg for the period of August 15-30. Attach the query in a text document.
+
+===========================================================================================================
+
+SELECT p.product, COUNT(*) AS order_count
+FROM orders o
+JOIN order_lines ol ON o.order_id = ol.order_id
+JOIN products p ON ol.product_id = p.product_id
+JOIN warehouses w ON o.warehouse_id = w.warehouse_id
+WHERE o.order_date BETWEEN '2023-08-15' AND '2023-08-30'
+  AND w.city = 'St. Petersburg'
+GROUP BY p.product_name
+ORDER BY order_count DESC
+LIMIT 5;
+
+
+===========================================================================================================
